@@ -22,11 +22,24 @@ public abstract class Figure {
 
   protected abstract boolean wrongMove(int x, int y);
 
-  public Figure hit(Position targetPosition) {
-    for (Figure target:Game.figures) {
+  protected abstract boolean blockedMove(int x, int y);
+
+  public Figure hitEnemy(Position targetPosition) {
+    for (Figure target:Game.currentGame.figures) {
       if (target.position.getX() == targetPosition.getX()
-          && target.position.getY() == targetPosition.getY()
-          && target.getAllied() == false) {
+              && target.position.getY() == targetPosition.getY()
+              && target.getAllied() == false) {
+        return target;
+      }
+    }
+    return null;
+  }
+
+  public Figure hitAllied(Position targetPosition) {
+    for (Figure target:Game.currentGame.figures) {
+      if (target.position.getX() == targetPosition.getX()
+              && target.position.getY() == targetPosition.getY()
+              && target.getAllied() == true) {
         return target;
       }
     }

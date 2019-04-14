@@ -1,10 +1,12 @@
 import java.util.Vector;
 
 public class Game {
-  public static Vector<Figure> figures;
+
+  public static Game currentGame;
+  public Vector<Figure> figures;
 
   public Game() {
-
+    currentGame = this;
   }
 
   public Vector<Figure> baseBoard() {
@@ -41,28 +43,5 @@ public class Game {
   public void placeFigures(Vector<Figure> placedFigures) {
     figures = new Vector<Figure>();
     figures.addAll(placedFigures);
-  }
-
-  public String printBoard() {
-    StringBuilder sb = new StringBuilder();
-    for (int y = 0; y < 8; y++) {
-      for (int x = 0; x < 8; x++) {
-        sb.append("O");
-        Figure temp;
-        if ((temp = checkForFigure(x, y)) != null) {
-          sb.setCharAt(y*8+x+y, temp.getNameChar());
-        }
-      }
-      sb.append("\n");
-    }
-    System.out.println(sb);
-    return sb.toString();
-  }
-
-  public Figure checkForFigure(int x, int y) {
-    for (Figure f: figures) {
-      if (f.position.getX() == x && f.position.getY() == y) return f;
-    }
-    return null;
   }
 }

@@ -9,6 +9,30 @@ public class TestLogic {
 
   Game game;
 
+  public String printBoard() {
+    StringBuilder sb = new StringBuilder();
+    for (int y = 0; y < 8; y++) {
+      for (int x = 0; x < 8; x++) {
+        sb.append("O");
+        Figure temp;
+        if ((temp = checkForFigure(x, y)) != null) {
+          sb.setCharAt(y*8+x+y, temp.getNameChar());
+        }
+      }
+      sb.append("\n");
+    }
+    System.out.println(sb);
+    return sb.toString();
+  }
+
+  public Figure checkForFigure(int x, int y) {
+    Vector<Figure> figures = game.figures;
+    for (Figure f: figures) {
+      if (f.position.getX() == x && f.position.getY() == y) return f;
+    }
+    return null;
+  }
+
   public boolean tryMove(Figure f, String to) {
     try {
       f.move(new Position(to));
@@ -16,6 +40,12 @@ public class TestLogic {
       return false;
     }
     return true;
+  }
+
+  public Vector<Figure> figureToPlace(Figure f) {
+    Vector<Figure> figures = new Vector<Figure>();
+    figures.add(f);
+    return figures;
   }
 
   @Before
@@ -33,30 +63,56 @@ public class TestLogic {
   @Test
   public void testPrint() {
     game.placeFigures(game.baseBoard());
-    String board =  game.printBoard();
-    int breaklines = 8;
-    assertEquals(64, board.length()-breaklines);
+    String board =  printBoard();
+    assertEquals(64, board.length()-8);
   }
 
   @Test
   public void testKing() {
     King king = new King("D1", true);
+    game.placeFigures(figureToPlace(king));
     assertTrue(tryMove(king, "C2"));
     assertFalse(tryMove(king, "C2"));
     assertFalse(tryMove(king, "F3"));
   }
 
   @Test
+  public void testKingBlocked() {
+    King king = new King("D1", true);
+    Bishop bishop = new Bishop("D2", true);
+    Rook rook = new Rook("E1", false);
+    Figure[] bp = {king, bishop, rook};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(king, "D2"));
+    assertTrue(tryMove(king, "E1"));
+  }
+
+  @Test
   public void testRook() {
     Rook rook = new Rook("A1", true);
+    game.placeFigures(figureToPlace(rook));
     assertTrue(tryMove(rook, "A8"));
     assertFalse(tryMove(rook, "A8"));
     assertFalse(tryMove(rook, "F3"));
   }
 
   @Test
+  public void testRookBlocked() {
+    Rook rook = new Rook("A1", true);
+    Bishop bishop = new Bishop("A4", true);
+    Queen queen = new Queen("C3", false);
+    Figure[] bp = {rook, bishop, queen};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(rook, "A8"));
+    assertTrue(tryMove(rook, "A3"));
+    assertFalse(tryMove(rook, "C8"));
+    assertTrue(tryMove(rook, "C3"));
+  }
+
+  @Test
   public void testQueen() {
     Queen queen = new Queen("E1", true);
+    game.placeFigures(figureToPlace(queen));
     assertTrue(tryMove(queen, "E5"));
     assertTrue(tryMove(queen, "B8"));
     assertFalse(tryMove(queen, "B8"));
@@ -64,30 +120,89 @@ public class TestLogic {
   }
 
   @Test
+  public void testQueenBlocked() {
+    Queen queen = new Queen("E1", true);
+    Bishop bishop = new Bishop("E4", true);
+    Knight knight = new Knight("C5", false);
+    Figure[] bp = {queen, bishop, knight};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(queen, "E8"));
+    assertTrue(tryMove(queen, "E3"));
+    assertFalse(tryMove(queen, "A7"));
+    assertTrue(tryMove(queen, "C5"));
+  }
+
+  @Test
   public void testKnight() {
     Knight knight = new Knight("B1", true);
+    game.placeFigures(figureToPlace(knight));
     assertTrue(tryMove(knight, "C3"));
     assertTrue(tryMove(knight, "D5"));
     assertFalse(tryMove(knight, "D6"));
   }
 
   @Test
+  public void testKnightBlocked() {
+    Knight knight = new Knight("B1", true);
+    Bishop bishop = new Bishop("A3", true);
+    Queen queen = new Queen("C3", false);
+    Figure[] bp = {knight, bishop, queen};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(knight, "A3"));
+    assertTrue(tryMove(knight, "C3"));
+  }
+
+  @Test
   public void testBishop() {
     Bishop bishop = new Bishop("C1", true);
+    game.placeFigures(figureToPlace(bishop));
     assertTrue(tryMove(bishop, "F4"));
     assertFalse(tryMove(bishop, "F4"));
     assertFalse(tryMove(bishop, "F5"));
   }
 
   @Test
+  public void testBishopBlocked() {
+    Bishop bishop = new Bishop("C1", true);
+    Knight knight = new Knight("G5", true);
+    Queen queen = new Queen("E5", false);
+    Figure[] bp = {knight, bishop, queen};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(bishop, "H6"));
+    assertFalse(tryMove(bishop, "G5"));
+    assertTrue(tryMove(bishop, "F4"));
+    assertFalse(tryMove(bishop, "D6"));
+    assertTrue(tryMove(bishop, "E5"));
+  }
+
+  @Test
   public void testPawn() {
-    Pawn pawn = new Pawn("B2", true);
-    Bishop bishop = new Bishop("C4", false);
-    Knight knight = new Knight("B5", true);
-    Figure[] bp = {pawn, bishop, knight};
-    game.placeFigures(new Vector(Arrays.asList(bp)));
-    assertTrue(tryMove(pawn, "B3"));
-    assertTrue(tryMove(pawn, "C4"));
-    assertFalse(tryMove(pawn, "B5"));
+    Pawn pawn1 = new Pawn("B2", true);
+    Pawn pawn2 = new Pawn("C2", true);
+    game.placeFigures(figureToPlace(pawn1));
+    game.placeFigures(figureToPlace(pawn2));
+    assertTrue(tryMove(pawn1, "B3"));
+    assertFalse(tryMove(pawn1, "B5"));
+    assertTrue(tryMove(pawn1, "B4"));
+    assertTrue(tryMove(pawn2, "C4"));
+    assertFalse(tryMove(pawn2, "C6"));
+    assertTrue(tryMove(pawn2, "C5"));
+  }
+
+  @Test
+  public void testPawnBlocked() {
+    Pawn pawn1 = new Pawn("B2", true);
+    Pawn pawn2 = new Pawn("C2", true);
+    Bishop bishop1 = new Bishop("B3", true);
+    Bishop bishop2 = new Bishop("C4", true);
+    Bishop bishop3 = new Bishop("D4", false);
+    Figure[] bp = {pawn1, pawn2, bishop1, bishop2, bishop3};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertFalse(tryMove(pawn1, "B3"));
+    assertFalse(tryMove(pawn1, "B4"));
+    assertFalse(tryMove(pawn2, "B3"));
+    assertFalse(tryMove(pawn2, "C4"));
+    assertTrue(tryMove(pawn2, "C3"));
+    assertTrue(tryMove(pawn2, "D4"));
   }
 }
