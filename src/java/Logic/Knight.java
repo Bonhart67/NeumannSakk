@@ -1,3 +1,5 @@
+package Logic;
+
 public class Knight extends Figure {
 
   public Knight(String to, boolean allied) {

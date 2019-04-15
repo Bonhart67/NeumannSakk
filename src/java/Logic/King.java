@@ -1,3 +1,5 @@
+package Logic;
+
 public class King extends Figure {
 
   public King(String to, boolean allied) {

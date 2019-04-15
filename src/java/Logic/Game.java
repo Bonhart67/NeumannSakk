@@ -1,3 +1,5 @@
+package Logic;
+
 import java.util.Vector;
 
 public class Game {

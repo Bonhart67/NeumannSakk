@@ -1,3 +1,5 @@
+package Logic;
+
 public class Queen extends Figure {
 
   public Queen(String to, boolean allied) {

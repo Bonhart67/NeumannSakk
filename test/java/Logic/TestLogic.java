@@ -1,3 +1,4 @@
+package Logic;
 import org.junit.*;
 
 import java.util.Arrays;

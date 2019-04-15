@@ -1,3 +1,5 @@
+package Logic;
+
 public class Pawn extends Figure {
 
   private boolean moved = false;

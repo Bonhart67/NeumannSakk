@@ -1,3 +1,5 @@
+package Logic;
+
 public abstract class Figure {
 
   private boolean allied;
