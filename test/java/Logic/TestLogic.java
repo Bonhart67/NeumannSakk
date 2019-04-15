@@ -208,4 +208,14 @@ public class TestLogic {
     assertTrue(tryMove(pawn2, "C3"));
     assertTrue(tryMove(pawn2, "D4"));
   }
+
+  @Test
+  public void testHit() {
+    King king = new King("B2", "white");
+    Queen queen = new Queen("B3", "black");
+    Figure[] bp = {king, queen};
+    game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
+    assertTrue(tryMove(king, "B3"));
+    assertEquals(1, game.figures.size());
+  }
 }

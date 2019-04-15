@@ -12,7 +12,9 @@ public class Queen extends Figure {
     int vectorY = targetPosition.getY() - this.position.getY();
     if (wrongMove(vectorX, vectorY)) throw new InvalidMoveException();
     if (blockedMove(vectorX, vectorY)) throw new InvalidMoveException();
-
+    if (hitEnemy(targetPosition) != null) {
+      Game.currentGame.figures.removeElement(hitEnemy(targetPosition));
+    }
     this.position = targetPosition;
   }
 
