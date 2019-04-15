@@ -66,11 +66,13 @@ public class TestLogic {
     game.placeFigures(game.baseBoard());
     String board =  printBoard();
     assertEquals(64, board.length()-8);
+    assertEquals(16, game.figures.stream().filter(c -> "white".equals(c.getColor())).count());
+    assertEquals(16, game.figures.stream().filter(c -> "black".equals(c.getColor())).count());
   }
 
   @Test
   public void testKing() {
-    King king = new King("D1", true);
+    King king = new King("D1", "white");
     game.placeFigures(figureToPlace(king));
     assertTrue(tryMove(king, "C2"));
     assertFalse(tryMove(king, "C2"));
@@ -79,9 +81,9 @@ public class TestLogic {
 
   @Test
   public void testKingBlocked() {
-    King king = new King("D1", true);
-    Bishop bishop = new Bishop("D2", true);
-    Rook rook = new Rook("E1", false);
+    King king = new King("D1", "white");
+    Bishop bishop = new Bishop("D2", "white");
+    Rook rook = new Rook("E1", "black");
     Figure[] bp = {king, bishop, rook};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(king, "D2"));
@@ -90,7 +92,7 @@ public class TestLogic {
 
   @Test
   public void testRook() {
-    Rook rook = new Rook("A1", true);
+    Rook rook = new Rook("A1", "white");
     game.placeFigures(figureToPlace(rook));
     assertTrue(tryMove(rook, "A8"));
     assertFalse(tryMove(rook, "A8"));
@@ -99,9 +101,9 @@ public class TestLogic {
 
   @Test
   public void testRookBlocked() {
-    Rook rook = new Rook("A1", true);
-    Bishop bishop = new Bishop("A4", true);
-    Queen queen = new Queen("C3", false);
+    Rook rook = new Rook("A1", "white");
+    Bishop bishop = new Bishop("A4", "white");
+    Queen queen = new Queen("C3", "black");
     Figure[] bp = {rook, bishop, queen};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(rook, "A8"));
@@ -112,7 +114,7 @@ public class TestLogic {
 
   @Test
   public void testQueen() {
-    Queen queen = new Queen("E1", true);
+    Queen queen = new Queen("E1", "white");
     game.placeFigures(figureToPlace(queen));
     assertTrue(tryMove(queen, "E5"));
     assertTrue(tryMove(queen, "B8"));
@@ -122,9 +124,9 @@ public class TestLogic {
 
   @Test
   public void testQueenBlocked() {
-    Queen queen = new Queen("E1", true);
-    Bishop bishop = new Bishop("E4", true);
-    Knight knight = new Knight("C5", false);
+    Queen queen = new Queen("E1", "white");
+    Bishop bishop = new Bishop("E4", "white");
+    Knight knight = new Knight("C5", "black");
     Figure[] bp = {queen, bishop, knight};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(queen, "E8"));
@@ -135,7 +137,7 @@ public class TestLogic {
 
   @Test
   public void testKnight() {
-    Knight knight = new Knight("B1", true);
+    Knight knight = new Knight("B1", "white");
     game.placeFigures(figureToPlace(knight));
     assertTrue(tryMove(knight, "C3"));
     assertTrue(tryMove(knight, "D5"));
@@ -144,9 +146,9 @@ public class TestLogic {
 
   @Test
   public void testKnightBlocked() {
-    Knight knight = new Knight("B1", true);
-    Bishop bishop = new Bishop("A3", true);
-    Queen queen = new Queen("C3", false);
+    Knight knight = new Knight("B1", "white");
+    Bishop bishop = new Bishop("A3", "white");
+    Queen queen = new Queen("C3", "black");
     Figure[] bp = {knight, bishop, queen};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(knight, "A3"));
@@ -155,7 +157,7 @@ public class TestLogic {
 
   @Test
   public void testBishop() {
-    Bishop bishop = new Bishop("C1", true);
+    Bishop bishop = new Bishop("C1", "white");
     game.placeFigures(figureToPlace(bishop));
     assertTrue(tryMove(bishop, "F4"));
     assertFalse(tryMove(bishop, "F4"));
@@ -164,9 +166,9 @@ public class TestLogic {
 
   @Test
   public void testBishopBlocked() {
-    Bishop bishop = new Bishop("C1", true);
-    Knight knight = new Knight("G5", true);
-    Queen queen = new Queen("E5", false);
+    Bishop bishop = new Bishop("C1", "white");
+    Knight knight = new Knight("G5", "white");
+    Queen queen = new Queen("E5", "black");
     Figure[] bp = {knight, bishop, queen};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(bishop, "H6"));
@@ -178,8 +180,8 @@ public class TestLogic {
 
   @Test
   public void testPawn() {
-    Pawn pawn1 = new Pawn("B2", true);
-    Pawn pawn2 = new Pawn("C2", true);
+    Pawn pawn1 = new Pawn("B2", "white");
+    Pawn pawn2 = new Pawn("C2", "white");
     game.placeFigures(figureToPlace(pawn1));
     game.placeFigures(figureToPlace(pawn2));
     assertTrue(tryMove(pawn1, "B3"));
@@ -192,11 +194,11 @@ public class TestLogic {
 
   @Test
   public void testPawnBlocked() {
-    Pawn pawn1 = new Pawn("B2", true);
-    Pawn pawn2 = new Pawn("C2", true);
-    Bishop bishop1 = new Bishop("B3", true);
-    Bishop bishop2 = new Bishop("C4", true);
-    Bishop bishop3 = new Bishop("D4", false);
+    Pawn pawn1 = new Pawn("B2", "white");
+    Pawn pawn2 = new Pawn("C2", "white");
+    Bishop bishop1 = new Bishop("B3", "white");
+    Bishop bishop2 = new Bishop("C4", "white");
+    Bishop bishop3 = new Bishop("D4", "black");
     Figure[] bp = {pawn1, pawn2, bishop1, bishop2, bishop3};
     game.placeFigures(new Vector<Figure>(Arrays.asList(bp)));
     assertFalse(tryMove(pawn1, "B3"));

@@ -2,8 +2,8 @@ package Logic;
 
 public class Queen extends Figure {
 
-  public Queen(String to, boolean allied) {
-    super(to, allied);
+  public Queen(String to, String color) {
+    super(to, color);
     setNameChar('Q');
   }
 

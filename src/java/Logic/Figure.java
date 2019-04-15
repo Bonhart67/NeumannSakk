@@ -2,23 +2,23 @@ package Logic;
 
 public abstract class Figure {
 
-  private boolean allied;
+  private String color;
   private char nameChar;
 
-  public boolean getAllied() {return allied; }
+  public String getColor() {return color;}
   public char getNameChar() { return nameChar; }
   public void setNameChar(char c) { nameChar = c; }
 
   protected Position position;
 
-  public Figure(Position position, boolean allied) {
+  public Figure(Position position, String color) {
     this.position = position;
-    this.allied = allied;
+    this.color = color;
   }
 
-  public Figure(String to, boolean allied) {
+  public Figure(String to, String color) {
     this.position = new Position(to);
-    this.allied = allied;
+    this.color = color;
   }
   public abstract void move(Position targetPosition) throws InvalidMoveException;
 
@@ -30,7 +30,7 @@ public abstract class Figure {
     for (Figure target:Game.currentGame.figures) {
       if (target.position.getX() == targetPosition.getX()
               && target.position.getY() == targetPosition.getY()
-              && target.getAllied() == false) {
+              && this.color != target.color) {
         return target;
       }
     }
@@ -41,7 +41,7 @@ public abstract class Figure {
     for (Figure target:Game.currentGame.figures) {
       if (target.position.getX() == targetPosition.getX()
               && target.position.getY() == targetPosition.getY()
-              && target.getAllied() == true) {
+              && this.color == target.color) {
         return target;
       }
     }

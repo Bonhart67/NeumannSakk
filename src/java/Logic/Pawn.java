@@ -4,8 +4,8 @@ public class Pawn extends Figure {
 
   private boolean moved = false;
 
-  public Pawn(String to, boolean allied) {
-    super(to, allied);
+  public Pawn(String to, String color) {
+    super(to, color);
     setNameChar('P');
   }
 

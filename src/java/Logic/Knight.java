@@ -2,8 +2,8 @@ package Logic;
 
 public class Knight extends Figure {
 
-  public Knight(String to, boolean allied) {
-    super(to, allied);
+  public Knight(String to, String color) {
+    super(to, color);
     setNameChar('H');
   }
 

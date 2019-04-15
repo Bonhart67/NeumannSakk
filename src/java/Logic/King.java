@@ -2,8 +2,8 @@ package Logic;
 
 public class King extends Figure {
 
-  public King(String to, boolean allied) {
-    super(to, allied);
+  public King(String to, String color) {
+    super(to, color);
     setNameChar('K');
   }
 
