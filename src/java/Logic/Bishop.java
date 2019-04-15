@@ -2,8 +2,8 @@ package Logic;
 
 public class Bishop extends Figure {
 
-  public Bishop(String to, boolean allied) {
-    super(to, allied);
+  public Bishop(String to, String color) {
+    super(to, color);
     setNameChar('B');
   }
 

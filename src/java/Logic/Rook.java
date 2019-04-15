@@ -2,8 +2,8 @@ package Logic;
 
 public class Rook extends Figure {
 
-  public Rook(String to, boolean allied) {
-    super(to, allied);
+  public Rook(String to, String color) {
+    super(to, color);
     setNameChar('R');
   }
 
