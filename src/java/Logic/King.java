@@ -3,7 +3,7 @@ package Logic;
 public class King extends Figure {
 
   public King(String to, String color) {
-    super(to, color);
+    super(to, color, "King");
     setNameChar('K');
   }
 

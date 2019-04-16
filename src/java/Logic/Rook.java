@@ -3,7 +3,7 @@ package Logic;
 public class Rook extends Figure {
 
   public Rook(String to, String color) {
-    super(to, color);
+    super(to, color, "Rook");
     setNameChar('R');
   }
 
