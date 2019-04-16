@@ -25,12 +25,16 @@ public class Pawn extends Figure {
   protected boolean wrongMove(int x, int y) {
     int previousX = this.position.getX();
     int previousY = this.position.getY();
-    Position left = new Position(previousX - 1, previousY + 1);
-    Position right = new Position(previousX + 1, previousY + 1);
+    Position left = new Position(previousX - 1, previousY + (this.getColor() == "white" ? 1 : -1));
+    Position right = new Position(previousX + 1, previousY + (this.getColor() == "white" ? 1 : -1));
     if ((hitEnemy(left) != null) || (hitEnemy(right) != null)) return false;
     int xAbs = Math.abs(x);
     int moveLength = (moved)?1:2;
-    return !(y > 0 && y <= moveLength) || (xAbs > 0);
+    if (this.getColor() == "white") {
+      return !(y > 0 && y <= moveLength) || (xAbs > 0);
+    } else {
+      return !(y < 0 && y <= moveLength) || (xAbs > 0);
+    }
   }
 
   @Override

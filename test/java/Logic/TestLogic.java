@@ -199,6 +199,20 @@ public class TestLogic {
   }
 
   @Test
+  public void testBlackPawn() {
+    Pawn pawn1 = new Pawn("B7", "black");
+    Pawn pawn2 = new Pawn("C7", "black");
+    game.placeFigures(figureToPlace(pawn1));
+    game.placeFigures(figureToPlace(pawn2));
+    assertTrue(tryMove(pawn1, "B6"));
+    assertFalse(tryMove(pawn1, "B4"));
+    assertTrue(tryMove(pawn1, "B5"));
+    assertTrue(tryMove(pawn2, "C5"));
+    assertFalse(tryMove(pawn2, "C3"));
+    assertTrue(tryMove(pawn2, "C4"));
+  }
+
+  @Test
   public void testPawnBlocked() {
     Pawn pawn1 = new Pawn("B2", "white");
     Pawn pawn2 = new Pawn("C2", "white");
