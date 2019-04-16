@@ -12,7 +12,7 @@ public class Position {
   public String getCode() {
     char[] code = new char[2];
     code[0] = letters.charAt(x);
-    code[1] = Character.forDigit(y, 10);
+    code[1] = Character.forDigit(y+1, 10);
     return new String(code);
   }
 

@@ -27,8 +27,7 @@ public class Game {
 
   public boolean gameOver() {
     return (Game.currentGame.figures.stream().filter(c -> "white".equals(c.getColor())).count() == 0) ||
-           (Game.currentGame.figures.stream().filter(c -> "black".equals(c.getColor())).count() == 0);
-
+            (Game.currentGame.figures.stream().filter(c -> "black".equals(c.getColor())).count() == 0);
   }
 
   public void tick() {
@@ -45,10 +44,10 @@ public class Game {
         figureToMove = getFigureAt(new Position(from));
         if (figureToMove.getColor() != round) throw new InvalidMoveException();
         figureToMove.move(new Position(to));
+        unsuccessfulMove = false;
       } catch (Exception e) {
         System.out.println("That move is invalid!");
       }
-      unsuccessfulMove = false;
     }
     System.out.println(figureToMove.getName() + " moved to " + figureToMove.position.getCode());
     round = (round == "white")?"black":"white";
@@ -83,12 +82,11 @@ public class Game {
 
     for (int i = 0; i < 16; i++) {
       if (i<8) {
-        temp.add(new Pawn(new Position(i, 2).getCode(), "white"));
+        temp.add(new Pawn(new Position(i, 1).getCode(), "white"));
       } else {
-        temp.add(new Pawn(new Position(i-8, 7).getCode(), "black"));
+        temp.add(new Pawn(new Position(i-8, 6).getCode(), "black"));
       }
     }
-
     return temp;
   }
 

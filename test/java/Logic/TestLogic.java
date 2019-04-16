@@ -71,6 +71,12 @@ public class TestLogic {
   }
 
   @Test
+  public void testFigureCode() {
+    Pawn pawn = new Pawn("A2", "white");
+    assertEquals("A2", pawn.position.getCode());
+  }
+
+  @Test
   public void testKing() {
     King king = new King("D1", "white");
     game.placeFigures(figureToPlace(king));
